@@ -1,0 +1,76 @@
+/* Page Background */
+.profile-page {
+  --background: #F5F1DE;
+}
+
+/* Main Container */
+.profile-container {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Avatar Section */
+.avatar-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.avatar-placeholder {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* Profile Form */
+.profile-form {
+  margin-bottom: 30px;
+}
+
+/* Input Fields */
+.input-item {
+  --background: #f8f8f2;
+  --padding-start: 14px;
+  --inner-padding-end: 14px;
+  border: 1.5px solid #eaeadf;
+  border-radius: 20px;
+  height: 52px;
+  margin-bottom: 16px;
+  transition: border 0.2s ease;
+}
+
+.input-item:focus-within {
+  border-color: #FFBF00;
+}
+
+.input-item ion-input {
+  font-size: 14px;
+}
+
+/* Icons */
+.input-item ion-icon {
+  font-size: 18px;
+  color: #666;
+}
+
+/* Save Button */
+.save-btn {
+  margin-top: 10px;
+  height: 48px;
+  --background: #FFBF00;
+  --color: #2D2D2D;
+  --border-radius: 25px;
+  font-weight: 600;
+}
+
+/* Logout Section */
+.logout-section {
+  margin-top: 40px;
+}
+
+.logout-section ion-button {
+  --border-color: #dc3545;
+  --color: #dc3545;
+  --border-radius: 20px;
+  height: 50px;
+  font-weight: 500;
+}

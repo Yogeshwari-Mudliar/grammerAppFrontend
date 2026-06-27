@@ -1,0 +1,109 @@
+/* Page Background */
+.dashboard-page {
+  --background: #F5F1DE;
+}
+
+/* Main Container */
+.dashboard-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Welcome Section */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.avatar-placeholder {
+  margin-bottom: 15px;
+  color: #666;
+}
+
+.welcome-section h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2D2D2D;
+  margin-bottom: 8px;
+}
+
+.welcome-section p {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Statistics Cards */
+.stats-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 100px;
+  --background: #f8f8f2;
+  border: 1.5px solid #eaeadf;
+  border-radius: 15px;
+  margin: 0;
+}
+
+.stat-card ion-card-content {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.stat-icon {
+  margin-right: 15px;
+  color: #FFBF00;
+  font-size: 24px;
+}
+
+.stat-info h3 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2D2D2D;
+  margin: 0;
+}
+
+.stat-info p {
+  font-size: 12px;
+  color: #777;
+  margin: 0;
+}
+
+/* Quick Access Section */
+.quick-access-section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2D2D2D;
+  margin-bottom: 15px;
+}
+
+.quick-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-buttons ion-button {
+  --border-color: #eaeadf;
+  --color: #2D2D2D;
+  --border-radius: 20px;
+  height: 50px;
+  font-weight: 500;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .stats-section {
+    flex-direction: column;
+  }
+
+  .stat-card {
+    flex: none;
+  }
+}

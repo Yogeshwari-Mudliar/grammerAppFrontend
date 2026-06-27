@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile-page">
+
+  <div class="profile-container">
+
+    <!-- Avatar Section -->
+    <div class="avatar-section">
+      <div class="avatar-placeholder">
+        <ion-icon name="person-circle-outline" size="large"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Profile Form -->
+    <form class="profile-form">
+
+      <ion-item class="input-item" lines="none">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="Full Name"
+          [(ngModel)]="user.name"
+          name="name"
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="input-item" lines="none">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input
+          type="email"
+          placeholder="Email"
+          [(ngModel)]="user.email"
+          name="email"
+          required>
+        </ion-input>
+      </ion-item>
+
+      <!-- Save Button -->
+      <ion-button expand="block" class="save-btn" type="submit" (click)="saveProfile()">
+        Save Changes
+      </ion-button>
+
+    </form>
+
+    <!-- Logout Button -->
+    <div class="logout-section">
+      <ion-button expand="block" fill="outline" color="danger" (click)="logout()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Logout
+      </ion-button>
+    </div>
+
+  </div>
+
+</ion-content>

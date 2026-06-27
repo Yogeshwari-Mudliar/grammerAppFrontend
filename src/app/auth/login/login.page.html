@@ -1,0 +1,80 @@
+<ion-content class="login-page">
+
+  <div class="login-container">
+
+    <!-- Illustration -->
+    <div class="illustration">
+      <img src="../../../assets/ChatGPT Image Mar 7, 2026, 08_44_54 PM.png" />
+    </div>
+
+    <!-- Heading -->
+    <div class="heading">
+      <h1>Welcome Back</h1>
+      <p>Login to continue learning</p>
+    </div>
+
+    <!-- Form -->
+    <form (ngSubmit)="login()">
+
+      <ion-item class="input-item" lines="none">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input
+          type="email"
+          placeholder="Enter your email"
+          [(ngModel)]="email"
+          name="email"
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="input-item" lines="none">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-input
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Enter your password"
+          [(ngModel)]="password"
+          name="password"
+          required>
+        </ion-input>
+        <ion-icon
+          [name]="showPassword ? 'eye-off' : 'eye'"
+          (click)="togglePasswordVisibility()"
+          slot="end"
+          style="cursor: pointer; font-size: 20px;">
+        </ion-icon>
+      </ion-item>
+
+      <!-- Login Button -->
+      <ion-button expand="block" class="login-btn" type="submit">
+        Login
+      </ion-button>
+
+    </form>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span>Or login with</span>
+    </div>
+
+    <!-- Social login -->
+    <div class="social-login">
+
+      <ion-button fill="outline">
+        <ion-icon name="logo-google"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="outline">
+        <ion-icon name="logo-apple"></ion-icon>
+      </ion-button>
+
+    </div>
+
+    <!-- Register -->
+    <div class="signup-link">
+      Don't have an account?
+      <a routerLink="/register">Sign Up</a>
+    </div>
+
+  </div>
+
+</ion-content>

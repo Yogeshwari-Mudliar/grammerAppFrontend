@@ -1,0 +1,35 @@
+/* Selected menu item styling */
+.selected {
+  --background: #FFBF00;
+  --color: #2D2D2D;
+  font-weight: 600;
+}
+
+.selected ion-icon {
+  color: #2D2D2D;
+}
+ion-menu {
+  --width: 250px;
+  transition: width 0.3s ease;
+}
+
+ion-content.collapsed {
+  width: 80px !important;
+}
+
+ion-item {
+  --padding-start: 16px;
+}
+
+/* Center icons when collapsed */
+ion-content.collapsed ion-item {
+  justify-content: center;
+}
+
+ion-content.collapsed ion-icon {
+  margin: 0 auto;
+}
+
+ion-content.collapsed ion-label {
+  display: none;
+}

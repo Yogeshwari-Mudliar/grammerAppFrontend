@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Courses</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="courses-page">
+
+  <div class="courses-container">
+
+    <h1>My Courses</h1>
+
+    <div class="courses-grid">
+      @for (course of courses; track course) {
+        <ion-card class="course-card">
+          <ion-card-header>
+            <ion-card-title>{{ course.title }}</ion-card-title>
+            <ion-card-subtitle>{{ course.description }}</ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="progress-section">
+              <span>Progress: {{ course.progress }}%</span>
+              <ion-progress-bar value="{{ course.progress / 100 }}"></ion-progress-bar>
+            </div>
+
+            <ion-button expand="block" [routerLink]="course.continueUrl">
+              Continue Course
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      }
+    </div>
+
+  </div>
+
+</ion-content>

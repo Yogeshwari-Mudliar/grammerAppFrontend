@@ -1,0 +1,58 @@
+/* Page Background */
+.assignments-page {
+  --background: #F5F1DE;
+}
+
+/* Main Container */
+.assignments-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.assignments-container h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2D2D2D;
+  margin-bottom: 20px;
+}
+
+/* Assignment Items */
+.assignment-item {
+  --background: #f8f8f2;
+  border: 1.5px solid #eaeadf;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  --padding-top: 15px;
+  --padding-bottom: 15px;
+}
+
+.assignment-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.assignment-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2D2D2D;
+  margin: 0;
+}
+
+.assignment-info p {
+  font-size: 12px;
+  color: #777;
+  margin: 5px 0 0 0;
+}
+
+.assignment-status {
+  margin-right: 10px;
+}
+
+.assignment-item ion-button {
+  --color: #FFBF00;
+}

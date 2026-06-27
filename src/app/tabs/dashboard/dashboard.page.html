@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+     <ion-buttons slot="start">
+      <ion-button (click)="toggleSidebar()">
+        <ion-icon name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="dashboard-page">
+
+  <div class="dashboard-container">
+
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <div class="avatar-placeholder">
+        <ion-icon name="person-circle-outline" size="large"></ion-icon>
+      </div>
+      <h1>Welcome back, Student!</h1>
+      <p>Continue your learning journey</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-section">
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-icon">
+            <ion-icon name="book-outline"></ion-icon>
+          </div>
+          <div class="stat-info">
+            <h3>5</h3>
+            <p>Courses</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-icon">
+            <ion-icon name="play-outline"></ion-icon>
+          </div>
+          <div class="stat-info">
+            <h3>12</h3>
+            <p>Lessons</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-icon">
+            <ion-icon name="document-outline"></ion-icon>
+          </div>
+          <div class="stat-info">
+            <h3>3</h3>
+            <p>Assignments</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Quick Access Buttons -->
+    <div class="quick-access-section">
+      <h2>Quick Access</h2>
+      <div class="quick-buttons">
+        <ion-button expand="block" fill="outline" routerLink="/app/courses">
+          <ion-icon name="book-outline" slot="start"></ion-icon>
+          Browse Courses
+        </ion-button>
+        <ion-button expand="block" fill="outline" routerLink="/app/lessons">
+          <ion-icon name="play-outline" slot="start"></ion-icon>
+          Continue Lessons
+        </ion-button>
+        <ion-button expand="block" fill="outline" routerLink="/app/assignments">
+          <ion-icon name="document-outline" slot="start"></ion-icon>
+          View Assignments
+        </ion-button>
+      </div>
+    </div>
+
+  </div>
+
+</ion-content>
