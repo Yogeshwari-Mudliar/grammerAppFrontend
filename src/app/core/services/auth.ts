@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { tap, of, throwError } from 'rxjs';
+import { tap } from 'rxjs';
+
+interface LoginResponse {
+  access_token: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class Auth{
@@ -15,13 +19,9 @@ export class Auth{
   }
 
   login(email: string, password: string) {
-    // Mock login for demo purposes
-    if (email && password) {
-      localStorage.setItem('token', 'mock-jwt-token');
-      return of({ access_token: 'mock-jwt-token' });
-    } else {
-      return throwError(() => new Error('Invalid credentials'));
-    }
+    return this.http
+      .post<LoginResponse>(`${this.api}/auth/login`, { email, password })
+      .pipe(tap((res) => localStorage.setItem('token', res.access_token)));
   }
 
   logout() {
