@@ -1,0 +1,143 @@
+/* Page Background */
+.login-page {
+  --background: #F5F1DE;
+}
+
+/* Center container */
+ion-content::part(scroll) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main Login Container */
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+/* Illustration */
+.illustration img {
+  width: 200px;
+  margin-bottom: 30px;
+}
+
+/* Heading */
+.heading h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2D2D2D;
+  margin-bottom: 8px;
+}
+
+.heading p {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+/* Input Fields */
+.input-item {
+
+  --background: #f8f8f2;
+  --padding-start: 14px;
+  --inner-padding-end: 14px;
+
+  border: 1.5px solid #eaeadf;
+  border-radius: 20px;
+
+  height: 52px;
+
+  margin-bottom: 16px;
+
+  transition: border 0.2s ease;
+
+}
+
+.input-item:focus-within {
+  border-color: #FFBF00;
+}
+.input-item:focus-within {
+  border-color: #FFBF00;
+}
+ion-item {
+  --border-width: 0;
+  --inner-border-width: 0;
+}
+
+/* Input text */
+ion-input {
+  font-size: 14px;
+}
+
+/* Icons */
+ion-icon {
+  font-size: 18px;
+  color: #666;
+}
+
+/* Login Button */
+.login-btn {
+  margin-top: 10px;
+  height: 48px;
+
+  --background: #FFBF00;
+  --color: #2D2D2D;
+  --border-radius: 25px;
+
+  font-weight: 600;
+}
+
+/* Divider */
+.divider {
+  margin: 25px 0;
+  font-size: 14px;
+  color: #999;
+}
+
+/* Social login buttons */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.social-login ion-button {
+  width: 50px;
+  height: 50px;
+
+  --border-radius: 12px;
+  --border-color: #ddd;
+}
+
+/* Signup section */
+.signup-link {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #666;
+}
+
+.signup-link a {
+  color: #FFBF00;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Responsive (Small devices) */
+@media (max-width: 400px) {
+
+  .login-container {
+    padding: 30px 20px;
+  }
+
+  .illustration img {
+    width: 160px;
+  }
+
+  .heading h1 {
+    font-size: 24px;
+  }
+
+}
