@@ -9,34 +9,54 @@
 
 <ion-content class="lessons-page">
 
+  <ion-refresher slot="fixed" (ionRefresh)="load(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="lessons-container">
 
     <h1>Course Lessons</h1>
 
-    <ion-list>
-      @for (lesson of lessons; track lesson; let i = $index) {
-        <ion-item class="lesson-item" lines="none">
-          <div class="lesson-content">
-            <div class="lesson-info">
-              <h3>{{ lesson.title }}</h3>
-              <p>{{ lesson.duration }}</p>
+    @if (loading) {
+      <div class="state-msg">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else if (error) {
+      <div class="state-msg">
+        <p>{{ error }}</p>
+        <ion-button fill="outline" size="small" (click)="load()">Retry</ion-button>
+      </div>
+    } @else if (lessons.length === 0) {
+      <div class="state-msg">
+        <p>No lessons available yet.</p>
+      </div>
+    } @else {
+      <ion-list>
+        @for (lesson of lessons; track lesson.id) {
+          <ion-item class="lesson-item" lines="none" button (click)="open(lesson)">
+            <div class="lesson-content">
+              <div class="lesson-info">
+                <h3>{{ lesson.title }}</h3>
+                <p>{{ lesson.description }}</p>
+                <ion-badge class="visibility-badge">{{ lesson.visibility }}</ion-badge>
+              </div>
+              <div class="lesson-status">
+                @if (isCompleted(lesson)) {
+                  <ion-icon name="checkmark-circle" color="success"></ion-icon>
+                  <span class="completed-text">Completed</span>
+                } @else if (percent(lesson) > 0) {
+                  <ion-icon name="time" color="warning"></ion-icon>
+                  <span class="pending-text">{{ percent(lesson) }}%</span>
+                } @else {
+                  <ion-icon name="play-circle" color="primary"></ion-icon>
+                  <span class="pending-text">Start</span>
+                }
+              </div>
             </div>
-            <div class="lesson-status">
-              @if (lesson.completed) {
-                <ion-icon name="checkmark-circle" color="success"></ion-icon>
-                <span class="completed-text">Completed</span>
-              } @else {
-                <ion-icon name="play-circle" color="primary"></ion-icon>
-                <span class="pending-text">Start</span>
-              }
-            </div>
-          </div>
-          <ion-button fill="clear" slot="end" [disabled]="lesson.completed">
-            <ion-icon name="play" slot="icon-only"></ion-icon>
-          </ion-button>
-        </ion-item>
-      }
-    </ion-list>
+          </ion-item>
+        }
+      </ion-list>
+    }
 
   </div>
 

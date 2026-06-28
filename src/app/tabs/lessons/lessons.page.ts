@@ -1,44 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { LessonService } from '../../core/services/lesson';
+import { Lesson, LessonProgress } from '../../core/models/lesson.model';
+
+type LessonWithProgress = Lesson & { progress?: LessonProgress };
 
 @Component({
   selector: 'app-lessons',
   templateUrl: './lessons.page.html',
   styleUrls: ['./lessons.page.scss'],
-  standalone: false
+  standalone: false,
 })
-export class LessonsPage implements OnInit {
+export class LessonsPage {
+  lessons: LessonWithProgress[] = [];
+  loading = false;
+  error = '';
 
-  lessons = [
-    {
-      title: 'Variables and Data Types',
-      completed: true,
-      duration: '15 min'
-    },
-    {
-      title: 'Control Structures',
-      completed: true,
-      duration: '20 min'
-    },
-    {
-      title: 'Functions and Methods',
-      completed: false,
-      duration: '25 min'
-    },
-    {
-      title: 'Object-Oriented Programming',
-      completed: false,
-      duration: '30 min'
-    },
-    {
-      title: 'Error Handling',
-      completed: false,
-      duration: '18 min'
-    }
-  ];
+  private lessonService = inject(LessonService);
+  private router = inject(Router);
 
-  constructor() { }
-
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.load();
   }
 
+  load() {
+    this.loading = true;
+    this.error = '';
+    forkJoin({
+      lessons: this.lessonService.getLessons(),
+      progress: this.lessonService.getMyProgress(),
+    }).subscribe({
+      next: ({ lessons, progress }) => {
+        const byLesson = new Map(progress.map((p) => [p.lessonId, p]));
+        this.lessons = lessons.map((l) => ({
+          ...l,
+          progress: byLesson.get(l.id),
+        }));
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Failed to load lessons. Please try again.';
+        this.loading = false;
+      },
+    });
+  }
+
+  open(lesson: LessonWithProgress) {
+    this.router.navigate(['/app/lessons', lesson.id]);
+  }
+
+  isCompleted(lesson: LessonWithProgress): boolean {
+    return lesson.progress?.status === 'COMPLETED';
+  }
+
+  percent(lesson: LessonWithProgress): number {
+    return lesson.progress?.progressPercent ?? 0;
+  }
 }

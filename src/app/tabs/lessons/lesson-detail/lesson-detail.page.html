@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/lessons"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ lesson?.title || 'Lesson' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="lesson-detail-page">
+
+  @if (loading) {
+    <div class="state-msg"><ion-spinner name="crescent"></ion-spinner></div>
+  } @else if (error) {
+    <div class="state-msg">
+      <p>{{ error }}</p>
+      <ion-button fill="outline" size="small" (click)="load()">Retry</ion-button>
+    </div>
+  } @else if (lesson) {
+    <div class="detail-container">
+
+      <div class="lesson-header">
+        <ion-badge class="visibility-badge">{{ lesson.visibility }}</ion-badge>
+        <h1>{{ lesson.title }}</h1>
+        @if (lesson.description) { <p class="desc">{{ lesson.description }}</p> }
+      </div>
+
+      <!-- Progress tracking -->
+      <div class="progress-box">
+        <div class="progress-row">
+          <span>Progress</span>
+          <span>{{ percent }}%</span>
+        </div>
+        <ion-progress-bar [value]="percent / 100"></ion-progress-bar>
+        @if (isCompleted) {
+          <p class="completed-label">
+            <ion-icon name="checkmark-circle" color="success"></ion-icon> Completed
+          </p>
+        } @else {
+          <ion-button expand="block" [disabled]="saving" (click)="markComplete()">
+            Mark as Complete
+          </ion-button>
+        }
+      </div>
+
+      <!-- Documented lesson structure, in order -->
+      @for (section of orderedSections(); track section.id) {
+        <div class="section-card">
+          <h2>{{ section.title || label(section.type) }}</h2>
+          @if (section.body) { <p>{{ section.body }}</p> }
+
+          @if (section.type === 'EXAMPLES' && lesson.examples?.length) {
+            @for (ex of lesson.examples; track ex.id) {
+              <div class="example">
+                @if (ex.title) { <h4>{{ ex.title }}</h4> }
+                <p>{{ ex.content }}</p>
+              </div>
+            }
+          }
+
+          @if (section.type === 'INTERACTIVE_ACTIVITY' && lesson.activities?.length) {
+            @for (act of lesson.activities; track act.id) {
+              <div class="activity">
+                <ion-chip>{{ act.type }}</ion-chip>
+                @if (act.title) { <span>{{ act.title }}</span> }
+              </div>
+            }
+          }
+        </div>
+      }
+
+      <!-- Fallbacks when content exists without a matching section -->
+      @if (!orderedSections().length && lesson.examples?.length) {
+        <div class="section-card">
+          <h2>Examples</h2>
+          @for (ex of lesson.examples; track ex.id) {
+            <div class="example">
+              @if (ex.title) { <h4>{{ ex.title }}</h4> }
+              <p>{{ ex.content }}</p>
+            </div>
+          }
+        </div>
+      }
+      @if (!orderedSections().length && lesson.activities?.length) {
+        <div class="section-card">
+          <h2>Activities</h2>
+          @for (act of lesson.activities; track act.id) {
+            <div class="activity">
+              <ion-chip>{{ act.type }}</ion-chip>
+              @if (act.title) { <span>{{ act.title }}</span> }
+            </div>
+          }
+        </div>
+      }
+
+    </div>
+  }
+
+</ion-content>
