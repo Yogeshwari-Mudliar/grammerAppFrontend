@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Quizzes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="quizzes-page">
+  <ion-refresher slot="fixed" (ionRefresh)="reload(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="quizzes-container">
+    <ion-searchbar
+      placeholder="Search quizzes"
+      [debounce]="400"
+      (ionInput)="onSearch($event)"
+    ></ion-searchbar>
+
+    @if (loading) {
+      <div class="state-msg"><ion-spinner name="crescent"></ion-spinner></div>
+    } @else if (error) {
+      <div class="state-msg">
+        <p>{{ error }}</p>
+        <ion-button fill="outline" size="small" (click)="reload()">Retry</ion-button>
+      </div>
+    } @else if (quizzes.length === 0) {
+      <div class="state-msg">
+        <p>{{ searchTerm ? 'No quizzes match your search.' : 'No quizzes available yet.' }}</p>
+      </div>
+    } @else {
+      <ion-list>
+        @for (quiz of quizzes; track quiz.id) {
+          <ion-item class="quiz-item" lines="none" button (click)="open(quiz)">
+            <div class="quiz-content">
+              <div class="quiz-info">
+                <h3>{{ quiz.title }}</h3>
+                <p>{{ quiz.description }}</p>
+                <div class="quiz-meta">
+                  @if (quiz.lesson) {
+                    <ion-badge color="medium">{{ quiz.lesson.title }}</ion-badge>
+                  }
+                  <ion-badge color="tertiary">Pass {{ quiz.passingScore }}%</ion-badge>
+                  @if (quiz.timeLimit) {
+                    <ion-badge color="warning">{{ quiz.timeLimit / 60 }} min</ion-badge>
+                  }
+                </div>
+              </div>
+              <ion-icon name="chevron-forward" color="medium"></ion-icon>
+            </div>
+          </ion-item>
+        }
+      </ion-list>
+
+      <ion-infinite-scroll [disabled]="!hasMore" (ionInfinite)="loadMore($event)">
+        <ion-infinite-scroll-content loadingSpinner="crescent"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    }
+  </div>
+</ion-content>

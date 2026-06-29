@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/quizzes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ quiz?.title || 'Quiz' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-chip color="primary">
+        <ion-icon name="time-outline"></ion-icon>
+        <ion-label>{{ timerLabel }}</ion-label>
+      </ion-chip>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="player-page">
+  @if (loading) {
+    <div class="state-msg"><ion-spinner name="crescent"></ion-spinner></div>
+  } @else if (error) {
+    <div class="state-msg">
+      <p>{{ error }}</p>
+      <ion-button fill="outline" size="small" (click)="ionViewWillEnter()">Retry</ion-button>
+    </div>
+  } @else if (currentQuestion) {
+
+    <div class="player-container">
+      <!-- Progress indicator -->
+      <div class="progress-head">
+        <span>Question {{ currentIndex + 1 }} of {{ total }}</span>
+        <span>{{ answeredCount }}/{{ total }} answered</span>
+      </div>
+      <ion-progress-bar [value]="progress"></ion-progress-bar>
+
+      <!-- Question navigation dots -->
+      <div class="dots">
+        @for (q of questions; track q.id; let i = $index) {
+          <button
+            class="dot"
+            [class.active]="i === currentIndex"
+            [class.done]="isAnswered(i)"
+            (click)="goTo(i)"
+          >{{ i + 1 }}</button>
+        }
+      </div>
+
+      <!-- Question -->
+      <ion-card class="question-card">
+        <ion-card-header>
+          <ion-card-subtitle>{{ currentQuestion.type.replace('_', ' ') }} · {{ currentQuestion.points }} pt</ion-card-subtitle>
+          <ion-card-title>{{ currentQuestion.prompt }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-question-renderer
+            [question]="currentQuestion"
+            [answer]="answers[currentQuestion.id]"
+            (answerChange)="onAnswer($event)"
+          ></app-question-renderer>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Navigation controls -->
+      <div class="controls">
+        <ion-button fill="outline" [disabled]="currentIndex === 0" (click)="prev()">
+          <ion-icon slot="start" name="chevron-back"></ion-icon>
+          Prev
+        </ion-button>
+
+        @if (!isLast) {
+          <ion-button (click)="next()">
+            Next
+            <ion-icon slot="end" name="chevron-forward"></ion-icon>
+          </ion-button>
+        } @else {
+          <ion-button color="success" [disabled]="submitting" (click)="submit()">
+            @if (submitting) {
+              <ion-spinner name="crescent"></ion-spinner>
+            } @else {
+              Submit
+            }
+          </ion-button>
+        }
+      </div>
+    </div>
+
+  }
+</ion-content>
