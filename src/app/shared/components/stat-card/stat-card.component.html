@@ -1,0 +1,11 @@
+<ion-card class="stat-card">
+  <ion-card-content>
+    <div class="stat-icon" [style.color]="'var(--ion-color-' + color + ')'">
+      <ion-icon [name]="icon"></ion-icon>
+    </div>
+    <div class="stat-info">
+      <h3>{{ value }}{{ suffix }}</h3>
+      <p>{{ label }}</p>
+    </div>
+  </ion-card-content>
+</ion-card>
