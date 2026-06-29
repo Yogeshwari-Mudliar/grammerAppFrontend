@@ -1,86 +1,199 @@
 <ion-header>
   <ion-toolbar>
-     <ion-buttons slot="start">
-      <ion-button (click)="toggleSidebar()">
-        <ion-icon name="menu-outline"></ion-icon>
-      </ion-button>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content class="dashboard-page">
+  <ion-refresher slot="fixed" (ionRefresh)="load(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="dashboard-container">
 
-    <!-- Welcome Section -->
-    <div class="welcome-section">
-      <div class="avatar-placeholder">
-        <ion-icon name="person-circle-outline" size="large"></ion-icon>
+    @if (loading) {
+      <div class="state-msg"><ion-spinner name="crescent"></ion-spinner></div>
+    } @else if (error) {
+      <div class="state-msg">
+        <p>{{ error }}</p>
+        <ion-button fill="outline" size="small" (click)="load()">Retry</ion-button>
       </div>
-      <h1>Welcome back, Student!</h1>
-      <p>Continue your learning journey</p>
-    </div>
+    } @else if (dashboard) {
 
-    <!-- Statistics Cards -->
-    <div class="stats-section">
-      <ion-card class="stat-card">
-        <ion-card-content>
-          <div class="stat-icon">
-            <ion-icon name="book-outline"></ion-icon>
-          </div>
-          <div class="stat-info">
-            <h3>5</h3>
-            <p>Courses</p>
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="stat-card">
-        <ion-card-content>
-          <div class="stat-icon">
-            <ion-icon name="play-outline"></ion-icon>
-          </div>
-          <div class="stat-info">
-            <h3>12</h3>
-            <p>Lessons</p>
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="stat-card">
-        <ion-card-content>
-          <div class="stat-icon">
-            <ion-icon name="document-outline"></ion-icon>
-          </div>
-          <div class="stat-info">
-            <h3>3</h3>
-            <p>Assignments</p>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </div>
-
-    <!-- Quick Access Buttons -->
-    <div class="quick-access-section">
-      <h2>Quick Access</h2>
-      <div class="quick-buttons">
-        <ion-button expand="block" fill="outline" routerLink="/app/courses">
-          <ion-icon name="book-outline" slot="start"></ion-icon>
-          Browse Courses
-        </ion-button>
-        <ion-button expand="block" fill="outline" routerLink="/app/lessons">
-          <ion-icon name="play-outline" slot="start"></ion-icon>
-          Continue Lessons
-        </ion-button>
-        <ion-button expand="block" fill="outline" routerLink="/app/assignments">
-          <ion-icon name="document-outline" slot="start"></ion-icon>
-          View Assignments
-        </ion-button>
+      <!-- Welcome Section -->
+      <div class="welcome-section">
+        <div class="avatar-placeholder">
+          <ion-icon name="person-circle-outline"></ion-icon>
+        </div>
+        <div>
+          <h1>Welcome back, {{ displayName }}!</h1>
+          <p class="role-tag">{{ dashboard.role | titlecase }}</p>
+        </div>
       </div>
-    </div>
 
+      <!-- ================= STUDENT ================= -->
+      @if (student) {
+        @if (student.continueLearning) {
+          <ion-card class="continue-card" button (click)="openLesson(student.continueLearning.lessonId)">
+            <ion-card-content>
+              <div class="continue-head">
+                <span>Continue Learning</span>
+                <ion-icon name="arrow-forward-circle"></ion-icon>
+              </div>
+              <h2>{{ student.continueLearning.title }}</h2>
+              <app-progress-bar [value]="student.continueLearning.progressPercent" label="Progress"></app-progress-bar>
+            </ion-card-content>
+          </ion-card>
+        }
+
+        <h2 class="section-title">Progress Overview</h2>
+        <div class="stats-grid">
+          <app-stat-card icon="play-outline" color="primary" [value]="student.statistics.lessonsStarted" label="Lessons Started"></app-stat-card>
+          <app-stat-card icon="checkmark-done-outline" color="success" [value]="student.statistics.lessonsCompleted" label="Completed"></app-stat-card>
+          <app-stat-card icon="help-circle-outline" color="tertiary" [value]="student.statistics.quizAttempts" label="Quiz Attempts"></app-stat-card>
+          <app-stat-card icon="time-outline" color="warning" [value]="formatTime(student.statistics.timeSpent)" label="Time Spent"></app-stat-card>
+        </div>
+
+        <ion-card class="metric-card">
+          <ion-card-content>
+            <app-progress-bar [value]="student.overallCompletion" label="Overall Completion" color="success"></app-progress-bar>
+            <app-progress-bar [value]="student.averageQuizScore" label="Average Quiz Score" color="tertiary"></app-progress-bar>
+          </ion-card-content>
+        </ion-card>
+
+        <h2 class="section-title">Recent Lessons</h2>
+        @if (student.recentLessons.length) {
+          <ion-list class="activity-list">
+            @for (l of student.recentLessons; track l.lessonId) {
+              <ion-item button lines="full" (click)="openLesson(l.lessonId)">
+                <ion-icon slot="start" name="book-outline" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>{{ l.title }}</h3>
+                  <p>{{ l.status | titlecase }} · {{ l.progressPercent }}%</p>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        } @else {
+          <p class="empty">No lessons yet.</p>
+        }
+
+        <h2 class="section-title">Recent Quizzes</h2>
+        @if (student.recentQuizzes.length) {
+          <ion-list class="activity-list">
+            @for (q of student.recentQuizzes; track q.attemptId) {
+              <ion-item button lines="full" (click)="openQuiz(q.quizId)">
+                <ion-icon slot="start" [name]="q.passed ? 'checkmark-circle' : 'close-circle'" [color]="q.passed ? 'success' : 'danger'"></ion-icon>
+                <ion-label>
+                  <h3>{{ q.title }}</h3>
+                  <p>Score: {{ q.percentage }}%</p>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        } @else {
+          <p class="empty">No quiz attempts yet.</p>
+        }
+
+        <h2 class="section-title">Announcements</h2>
+        <p class="empty">No announcements.</p>
+      }
+
+      <!-- ================= TEACHER ================= -->
+      @if (teacher) {
+        @if (teacher.continueLearning) {
+          <ion-card class="continue-card" button (click)="openLesson(teacher.continueLearning.lessonId)">
+            <ion-card-content>
+              <div class="continue-head">
+                <span>Continue Learning</span>
+                <ion-icon name="arrow-forward-circle"></ion-icon>
+              </div>
+              <h2>{{ teacher.continueLearning.title }}</h2>
+              <app-progress-bar [value]="teacher.continueLearning.progressPercent" label="Progress"></app-progress-bar>
+            </ion-card-content>
+          </ion-card>
+        }
+
+        <h2 class="section-title">Personal Progress</h2>
+        <div class="stats-grid">
+          <app-stat-card icon="play-outline" color="primary" [value]="teacher.personalProgress.lessonsStarted" label="Lessons Started"></app-stat-card>
+          <app-stat-card icon="checkmark-done-outline" color="success" [value]="teacher.personalProgress.lessonsCompleted" label="Completed"></app-stat-card>
+          <app-stat-card icon="ribbon-outline" color="tertiary" [value]="teacher.personalProgress.averageScore" suffix="%" label="Avg Quiz Score"></app-stat-card>
+          <app-stat-card icon="time-outline" color="warning" [value]="formatTime(teacher.personalProgress.timeSpent)" label="Time Spent"></app-stat-card>
+        </div>
+
+        <h2 class="section-title">Student Overview</h2>
+        <div class="stats-grid">
+          <app-stat-card icon="people-outline" color="primary" [value]="teacher.studentOverview.totalStudents" label="Total Students"></app-stat-card>
+          <app-stat-card icon="pulse-outline" color="success" [value]="teacher.studentOverview.activeStudents" label="Active Students"></app-stat-card>
+          <app-stat-card icon="trending-up-outline" color="tertiary" [value]="teacher.studentOverview.averageCompletion" suffix="%" label="Avg Completion"></app-stat-card>
+        </div>
+
+        <h2 class="section-title">Student Quiz Performance</h2>
+        <ion-card class="metric-card">
+          <ion-card-content>
+            <div class="perf-summary">
+              <div><strong>{{ teacher.studentQuizPerformance.totalAttempts }}</strong><span>Attempts</span></div>
+              <div><strong>{{ teacher.studentQuizPerformance.averageScore }}%</strong><span>Average</span></div>
+            </div>
+            @for (row of teacher.studentQuizPerformance.topQuizzes; track row.quizId) {
+              <app-progress-bar [value]="row.averageScore" [label]="row.title + ' (' + row.attempts + ')'" color="tertiary"></app-progress-bar>
+            }
+            @if (!teacher.studentQuizPerformance.topQuizzes.length) {
+              <p class="empty">No student attempts yet.</p>
+            }
+          </ion-card-content>
+        </ion-card>
+
+        <h2 class="section-title">Announcements</h2>
+        <p class="empty">No announcements.</p>
+      }
+
+      <!-- ================= ADMIN ================= -->
+      @if (admin) {
+        <h2 class="section-title">Users</h2>
+        <div class="stats-grid">
+          <app-stat-card icon="people-outline" color="primary" [value]="admin.totalUsers" label="Total Users"></app-stat-card>
+          <app-stat-card icon="school-outline" color="success" [value]="admin.students" label="Students"></app-stat-card>
+          <app-stat-card icon="person-outline" color="tertiary" [value]="admin.teachers" label="Teachers"></app-stat-card>
+          <app-stat-card icon="pulse-outline" color="warning" [value]="admin.activeUsers" label="Active Users"></app-stat-card>
+        </div>
+
+        <h2 class="section-title">Content</h2>
+        <div class="stats-grid">
+          <app-stat-card icon="book-outline" color="primary" [value]="admin.publishedLessons" label="Published Lessons"></app-stat-card>
+          <app-stat-card icon="help-circle-outline" color="tertiary" [value]="admin.publishedQuizzes" label="Published Quizzes"></app-stat-card>
+        </div>
+
+        <h2 class="section-title">Reports Summary</h2>
+        <div class="stats-grid">
+          <app-stat-card icon="layers-outline" color="primary" [value]="admin.reportsSummary.totalLessonProgress" label="Lesson Progress"></app-stat-card>
+          <app-stat-card icon="checkmark-done-outline" color="success" [value]="admin.reportsSummary.completedLessons" label="Completed Lessons"></app-stat-card>
+          <app-stat-card icon="documents-outline" color="tertiary" [value]="admin.reportsSummary.totalQuizAttempts" label="Quiz Attempts"></app-stat-card>
+          <app-stat-card icon="ribbon-outline" color="warning" [value]="admin.reportsSummary.averageQuizScore" suffix="%" label="Avg Quiz Score"></app-stat-card>
+        </div>
+
+        <h2 class="section-title">Recent Registrations</h2>
+        @if (admin.recentRegistrations.length) {
+          <ion-list class="activity-list">
+            @for (u of admin.recentRegistrations; track u.id) {
+              <ion-item lines="full">
+                <ion-icon slot="start" name="person-add-outline" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>{{ u.email }}</h3>
+                  <p>{{ u.role | titlecase }} · {{ u.createdAt | date:'medium' }}</p>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        } @else {
+          <p class="empty">No registrations yet.</p>
+        }
+      }
+
+    }
   </div>
-
 </ion-content>

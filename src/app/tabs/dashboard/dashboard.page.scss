@@ -1,109 +1,124 @@
 /* Page Background */
 .dashboard-page {
-  --background: #F5F1DE;
+  --background: #f5f1de;
 }
 
-/* Main Container */
 .dashboard-container {
-  padding: 20px;
-  max-width: 1200px;
+  padding: 16px;
+  max-width: 1000px;
   margin: 0 auto;
+}
+
+.state-msg {
+  text-align: center;
+  padding: 50px 16px;
+  color: #777;
 }
 
 /* Welcome Section */
 .welcome-section {
-  text-align: center;
-  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
 }
 
-.avatar-placeholder {
-  margin-bottom: 15px;
+.avatar-placeholder ion-icon {
+  font-size: 52px;
   color: #666;
 }
 
 .welcome-section h1 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  color: #2D2D2D;
+  color: #2d2d2d;
+  margin: 0;
+}
+
+.role-tag {
+  font-size: 13px;
+  color: #777;
+  margin: 2px 0 0;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin: 22px 0 10px;
+}
+
+/* Stat grid using reusable app-stat-card */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.continue-card {
+  border-radius: 16px;
+  background: linear-gradient(135deg, #3880ff, #5260ff);
+  color: #fff;
+  margin: 0 0 8px;
+}
+
+.continue-card h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 6px 0 10px;
+  color: #fff;
+}
+
+.continue-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.continue-card app-progress-bar {
+  --ion-text-color: #fff;
+}
+
+.metric-card {
+  border-radius: 16px;
+}
+
+.activity-list {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.perf-summary {
+  display: flex;
+  gap: 24px;
   margin-bottom: 8px;
 }
 
-.welcome-section p {
-  font-size: 14px;
-  color: #777;
-}
-
-/* Statistics Cards */
-.stats-section {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-
-.stat-card {
-  flex: 1;
-  min-width: 100px;
-  --background: #f8f8f2;
-  border: 1.5px solid #eaeadf;
-  border-radius: 15px;
-  margin: 0;
-}
-
-.stat-card ion-card-content {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-}
-
-.stat-icon {
-  margin-right: 15px;
-  color: #FFBF00;
-  font-size: 24px;
-}
-
-.stat-info h3 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2D2D2D;
-  margin: 0;
-}
-
-.stat-info p {
-  font-size: 12px;
-  color: #777;
-  margin: 0;
-}
-
-/* Quick Access Section */
-.quick-access-section h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #2D2D2D;
-  margin-bottom: 15px;
-}
-
-.quick-buttons {
+.perf-summary div {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
-.quick-buttons ion-button {
-  --border-color: #eaeadf;
-  --color: #2D2D2D;
-  --border-radius: 20px;
-  height: 50px;
-  font-weight: 500;
+.perf-summary strong {
+  font-size: 22px;
+  color: #2d2d2d;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .stats-section {
-    flex-direction: column;
-  }
+.perf-summary span {
+  font-size: 12px;
+  color: #888;
+}
 
-  .stat-card {
-    flex: none;
-  }
+.empty {
+  color: #999;
+  font-size: 14px;
+  padding: 4px 2px 8px;
 }
