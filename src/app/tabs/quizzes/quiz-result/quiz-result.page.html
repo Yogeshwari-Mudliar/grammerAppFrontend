@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/quizzes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Results</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="result-page">
+  @if (attempt) {
+    <div class="result-container">
+
+      <!-- Score summary -->
+      <div class="score-card" [class.passed]="passed" [class.failed]="!passed">
+        <ion-icon [name]="passed ? 'trophy' : 'refresh-circle'"></ion-icon>
+        <h1>{{ percentage }}%</h1>
+        <p class="verdict">{{ passed ? 'Passed' : 'Keep practicing' }}</p>
+        <div class="stats">
+          <span>Score: {{ attempt.score }}/{{ attempt.maxScore }}</span>
+          <span>Time: {{ timeLabel }}</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <ion-button expand="block" (click)="retry()">
+          <ion-icon slot="start" name="refresh"></ion-icon>
+          Retry Quiz
+        </ion-button>
+        <ion-button expand="block" fill="outline" (click)="backToList()">
+          Back to Quizzes
+        </ion-button>
+      </div>
+
+      <!-- Review answers -->
+      <h2>Review Answers</h2>
+      @for (row of rows; track trackRow($index, row)) {
+        <ion-card class="review-card" [class.correct]="row.isCorrect" [class.incorrect]="!row.isCorrect">
+          <ion-card-content>
+            <div class="review-head">
+              <ion-icon [name]="row.isCorrect ? 'checkmark-circle' : 'close-circle'"
+                        [color]="row.isCorrect ? 'success' : 'danger'"></ion-icon>
+              <span class="review-type">{{ row.type }}</span>
+              <span class="review-points">+{{ row.pointsEarned }}</span>
+            </div>
+            <p class="review-prompt">{{ row.prompt }}</p>
+            <p class="review-line"><strong>Your answer:</strong> {{ row.yourAnswer }}</p>
+            @if (!row.isCorrect) {
+              <p class="review-line correct-line"><strong>Correct:</strong> {{ row.correctAnswer }}</p>
+            }
+          </ion-card-content>
+        </ion-card>
+      }
+
+    </div>
+  }
+</ion-content>

@@ -1,0 +1,90 @@
+<div class="question-renderer">
+
+  <!-- Multiple Choice & True / False -->
+  @if (question.type === 'MULTIPLE_CHOICE' || question.type === 'TRUE_FALSE') {
+    <ion-radio-group [(ngModel)]="selectedOption" (ionChange)="emitOption()">
+      @for (opt of question.options; track opt.id) {
+        <ion-item lines="full">
+          <ion-radio [value]="opt.id" labelPlacement="end">{{ opt.text }}</ion-radio>
+        </ion-item>
+      }
+    </ion-radio-group>
+  }
+
+  <!-- Fill in the blank -->
+  @if (question.type === 'FILL_BLANK') {
+    <ion-item lines="full">
+      <ion-input
+        placeholder="Type your answer"
+        [(ngModel)]="fillValue"
+        (ionInput)="emitFill()"
+      ></ion-input>
+    </ion-item>
+  }
+
+  <!-- Match -->
+  @if (question.type === 'MATCH') {
+    @for (left of leftItems; track left) {
+      <ion-item lines="full">
+        <ion-label>{{ left }}</ion-label>
+        <ion-select
+          slot="end"
+          placeholder="Select"
+          [(ngModel)]="matchMap[left]"
+          (ionChange)="emitMatch()"
+        >
+          @for (right of rightItems; track right) {
+            <ion-select-option [value]="right">{{ right }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+    }
+  }
+
+  <!-- Sentence Builder -->
+  @if (question.type === 'SENTENCE_BUILDER') {
+    <div class="builder">
+      <div class="arranged">
+        @if (arranged.length === 0) {
+          <span class="placeholder">Tap words below to build the sentence</span>
+        }
+        @for (word of arranged; track $index) {
+          <ion-chip color="primary" (click)="removeToken($index)">
+            {{ word }}
+          </ion-chip>
+        }
+      </div>
+      <div class="pool">
+        @for (slot of pool; track $index) {
+          <ion-chip
+            [disabled]="slot.used"
+            [outline]="true"
+            (click)="pushToken($index)"
+          >
+            {{ slot.token }}
+          </ion-chip>
+        }
+      </div>
+      <ion-button fill="clear" size="small" (click)="resetTokens()">Reset</ion-button>
+    </div>
+  }
+
+  <!-- Find the Mistake -->
+  @if (question.type === 'FIND_THE_MISTAKE') {
+    <div class="mistake">
+      <p class="hint">Tap the incorrect word:</p>
+      <div class="words">
+        @for (word of sentenceWords; track $index) {
+          <ion-chip
+            [color]="selectedWord === word ? 'danger' : undefined"
+            [outline]="selectedWord !== word"
+            (click)="selectWord(word)"
+          >
+            {{ word }}
+          </ion-chip>
+        }
+      </div>
+    </div>
+  }
+
+</div>

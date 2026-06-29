@@ -1,0 +1,59 @@
+.player-container {
+  padding: 12px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.state-msg {
+  text-align: center;
+  padding: 40px 16px;
+  color: #777;
+}
+
+.progress-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid #cfcfc4;
+  background: #fff;
+  color: #777;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dot.done {
+  background: #d4edda;
+  border-color: #28a745;
+  color: #1e7e34;
+}
+
+.dot.active {
+  border-color: var(--ion-color-primary);
+  color: var(--ion-color-primary);
+  box-shadow: 0 0 0 2px rgba(56, 128, 255, 0.2);
+}
+
+.question-card {
+  border-radius: 16px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}

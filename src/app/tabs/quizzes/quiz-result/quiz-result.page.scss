@@ -1,0 +1,102 @@
+.result-container {
+  padding: 16px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.score-card {
+  text-align: center;
+  border-radius: 20px;
+  padding: 24px;
+  color: #fff;
+}
+
+.score-card.passed {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.score-card.failed {
+  background: linear-gradient(135deg, #ff9f43, #ee5253);
+}
+
+.score-card ion-icon {
+  font-size: 48px;
+}
+
+.score-card h1 {
+  font-size: 44px;
+  margin: 8px 0 0;
+}
+
+.score-card .verdict {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 4px 0 12px;
+}
+
+.score-card .stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+.actions {
+  margin: 18px 0;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 18px 0 10px;
+}
+
+.review-card {
+  border-radius: 14px;
+  border-left: 5px solid #ccc;
+}
+
+.review-card.correct {
+  border-left-color: #28a745;
+}
+
+.review-card.incorrect {
+  border-left-color: #ee5253;
+}
+
+.review-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.review-type {
+  font-size: 12px;
+  text-transform: capitalize;
+  color: #888;
+  flex: 1;
+}
+
+.review-points {
+  font-size: 12px;
+  font-weight: 700;
+  color: #28a745;
+}
+
+.review-prompt {
+  font-weight: 600;
+  color: #2d2d2d;
+  margin: 0 0 8px;
+}
+
+.review-line {
+  font-size: 14px;
+  margin: 2px 0;
+  color: #555;
+}
+
+.correct-line {
+  color: #1e7e34;
+}

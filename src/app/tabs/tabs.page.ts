@@ -14,6 +14,7 @@ export class TabsPage {
     { title: 'Dashboard', url: '/app/dashboard', icon: 'home' },
     { title: 'Courses', url: '/app/courses', icon: 'book' },
     { title: 'Lessons', url: '/app/lessons', icon: 'play' },
+    { title: 'Quizzes', url: '/app/quizzes', icon: 'help-circle' },
     { title: 'Assignments', url: '/app/assignments', icon: 'document' },
     { title: 'Profile', url: '/app/profile', icon: 'person' }
   ];
