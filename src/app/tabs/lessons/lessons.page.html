@@ -9,11 +9,33 @@
 
 <ion-content class="lessons-page">
 
-  <ion-refresher slot="fixed" (ionRefresh)="load(); $event.target.complete()">
+  <ion-refresher slot="fixed" (ionRefresh)="reload(); $event.target.complete()">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <div class="lessons-container">
+
+    <ion-searchbar
+      placeholder="Search lessons"
+      [debounce]="400"
+      (ionInput)="onSearch($event)"
+    ></ion-searchbar>
+
+    <!-- Continue Learning -->
+    @if (!searchTerm && continueLearning.length) {
+      <div class="continue-section">
+        <h2>Continue Learning</h2>
+        <div class="continue-scroll">
+          @for (item of continueLearning; track item.lessonId) {
+            <div class="continue-card" (click)="open(item.lessonId)">
+              <h3>{{ item.lesson?.title }}</h3>
+              <ion-progress-bar [value]="item.progressPercent / 100"></ion-progress-bar>
+              <span class="continue-pct">{{ item.progressPercent }}% complete</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
 
     <h1>Course Lessons</h1>
 
@@ -24,16 +46,16 @@
     } @else if (error) {
       <div class="state-msg">
         <p>{{ error }}</p>
-        <ion-button fill="outline" size="small" (click)="load()">Retry</ion-button>
+        <ion-button fill="outline" size="small" (click)="reload()">Retry</ion-button>
       </div>
     } @else if (lessons.length === 0) {
       <div class="state-msg">
-        <p>No lessons available yet.</p>
+        <p>{{ searchTerm ? 'No lessons match your search.' : 'No lessons available yet.' }}</p>
       </div>
     } @else {
       <ion-list>
         @for (lesson of lessons; track lesson.id) {
-          <ion-item class="lesson-item" lines="none" button (click)="open(lesson)">
+          <ion-item class="lesson-item" lines="none" button (click)="open(lesson.id)">
             <div class="lesson-content">
               <div class="lesson-info">
                 <h3>{{ lesson.title }}</h3>
@@ -56,6 +78,10 @@
           </ion-item>
         }
       </ion-list>
+
+      <ion-infinite-scroll [disabled]="!hasMore" (ionInfinite)="loadMore($event)">
+        <ion-infinite-scroll-content loadingSpinner="crescent"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     }
 
   </div>
