@@ -66,4 +66,21 @@ export interface LessonProgress {
   status: ProgressStatus;
   progressPercent: number;
   completedAt: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+  lesson?: Lesson;
+}
+
+export interface PaginatedResult<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface LessonQuery {
+  page?: number;
+  limit?: number;
+  search?: string;
 }

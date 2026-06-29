@@ -90,3 +90,44 @@
   color: #777;
   padding: 40px 10px;
 }
+
+/* Continue Learning */
+.continue-section {
+  margin-bottom: 20px;
+}
+
+.continue-section h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin: 10px 0;
+}
+
+.continue-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.continue-card {
+  flex: 0 0 220px;
+  background: #f8f8f2;
+  border: 1.5px solid #eaeadf;
+  border-radius: 15px;
+  padding: 14px;
+}
+
+.continue-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d2d2d;
+  margin: 0 0 10px 0;
+}
+
+.continue-pct {
+  display: block;
+  font-size: 11px;
+  color: #777;
+  margin-top: 6px;
+}
