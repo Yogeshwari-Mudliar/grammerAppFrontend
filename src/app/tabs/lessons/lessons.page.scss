@@ -75,3 +75,18 @@
 .lesson-item ion-button:disabled {
   --color: #ccc;
 }
+/* Visibility badge */
+.visibility-badge {
+  margin-top: 6px;
+  --background: #eaeadf;
+  --color: #555;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+/* Empty / loading / error state */
+.state-msg {
+  text-align: center;
+  color: #777;
+  padding: 40px 10px;
+}
